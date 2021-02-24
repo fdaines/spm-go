@@ -10,8 +10,14 @@ import (
 var packagesCmd = &cobra.Command{
 	Use:   "packages",
 	Short: "Lists packages",
-	Args: validateArgs,
-	Run: listPackages,
+	Args:  validateArgs,
+	Run:   listPackages,
+}
+
+var outputFormat string
+func init() {
+	rootCmd.AddCommand(packagesCmd)
+	packagesCmd.Flags().StringVarP(&outputFormat, "format", "f", "console", "Output format")
 }
 
 func listPackages(cmd *cobra.Command, args []string) {
@@ -21,12 +27,6 @@ func listPackages(cmd *cobra.Command, args []string) {
 		return
 	}
 	printPackages(packages, outputFormat)
-}
-
-var outputFormat string
-func init() {
-	rootCmd.AddCommand(packagesCmd)
-	packagesCmd.Flags().StringVarP(&outputFormat, "format", "f", "console", "Output format")
 }
 
 func validateArgs(cmd *cobra.Command, args []string) error {
