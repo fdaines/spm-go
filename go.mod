@@ -1,4 +1,4 @@
-module github.com/fdaines/spm
+module github.com/fdaines/spm-go
 
 go 1.15
 

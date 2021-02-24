@@ -4,7 +4,7 @@
 *.dll
 *.so
 *.dylib
-spm
+spm-go
 
 # Test binary, built with `go test -c`
 *.test

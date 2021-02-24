@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/fdaines/spm/cmd"
+	"github.com/fdaines/spm-go/cmd"
 )
 
 func main() {
