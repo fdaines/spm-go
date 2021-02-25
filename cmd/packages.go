@@ -3,8 +3,10 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
+	"go/build"
 )
 
 var packagesCmd = &cobra.Command{
@@ -26,7 +28,9 @@ func listPackages(cmd *cobra.Command, args []string) {
 		fmt.Printf("Error: %v\n", err)
 		return
 	}
-	printPackages(packages, outputFormat)
+
+	packagesInfo := analyzePackages(packages)
+	printPackages(packagesInfo, outputFormat)
 }
 
 func validateArgs(cmd *cobra.Command, args []string) error {
@@ -37,11 +41,30 @@ func validateArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func printPackages(packages []string, format string) {
+func analyzePackages(packages []string) []*model.PackageInfo {
+	var packagesInfo []*model.PackageInfo
+	var context = build.Default
+
+	for _, packageName := range packages {
+		pkg, err := context.Import(packageName, "", 0)
+		if err == nil {
+			packagesInfo = append(packagesInfo,
+				&model.PackageInfo{
+					Name: pkg.Name,
+					Path: pkg.ImportPath,
+					Files: pkg.GoFiles,
+					FilesNumber: len(pkg.GoFiles),
+				})
+		}
+	}
+	return packagesInfo
+}
+
+func printPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		fmt.Printf("Packages\n")
+		fmt.Printf("Package;Files\n")
 		for _, p := range packages {
-			fmt.Printf("%s\n", p)
+			fmt.Printf("%s;%d\n", p.Path, p.FilesNumber)
 		}
 	} else if format == "console" {
 		fmt.Println("Output in 'console' format is not implemented.")
