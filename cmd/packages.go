@@ -5,14 +5,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var packagesCmd = &cobra.Command{
-	Use:   "packages",
-	Short: "Lists packages",
-	Args:  validateArgs,
-	Run:   listPackages,
-}
+var (
+	outputFormat string
+	packagesCmd = &cobra.Command{
+		Use:   "packages",
+		Short: "Lists packages",
+		Args:  validateArgs,
+		Run:   listPackages,
+	}
+)
 
-var outputFormat string
 func init() {
 	rootCmd.AddCommand(packagesCmd)
 	packagesCmd.Flags().StringVarP(&outputFormat, "format", "f", "console", "Output format")
