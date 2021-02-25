@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/fdaines/spm-go/model"
@@ -53,7 +54,7 @@ func analyzePackages(packages []string) []*model.PackageInfo {
 					Name: pkg.Name,
 					Path: pkg.ImportPath,
 					Files: pkg.GoFiles,
-					FilesNumber: len(pkg.GoFiles),
+					FilesCount: len(pkg.GoFiles),
 				})
 		}
 	}
@@ -64,11 +65,18 @@ func printPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
 		fmt.Printf("Package;Files\n")
 		for _, p := range packages {
-			fmt.Printf("%s;%d\n", p.Path, p.FilesNumber)
+			fmt.Printf("%s;%d\n", p.Path, p.FilesCount)
 		}
 	} else if format == "console" {
 		fmt.Println("Output in 'console' format is not implemented.")
 	} else if format == "json" {
-		fmt.Println("Output in 'json' format is not implemented.")
+		summary := &model.PackagesSummary{
+			Packages: packages,
+		}
+		b, err := json.MarshalIndent(summary, "", "    ")
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Printf("%s\n", string(b))
 	}
 }
