@@ -1,4 +1,4 @@
-package dependencies
+package instability
 
 import (
 	"fmt"
@@ -10,6 +10,7 @@ import (
 func AnalyzePackages() []*model.PackageInfo {
 	var packagesInfo []*model.PackageInfo
 	var context = build.Default
+	var afferentMap = make(map[string][]string)
 
 	pkgs, err := utils.GetPackages()
 	if err != nil {
@@ -32,7 +33,17 @@ func AnalyzePackages() []*model.PackageInfo {
 						Path: pkg.ImportPath,
 						Dependencies: depInfo,
 					})
+				for _,item := range internals {
+					afferentMap[item] = append(afferentMap[item], pkg.ImportPath)
+				}
 			}
+		}
+
+		for index, pkgInfo := range packagesInfo {
+			packagesInfo[index].Dependants = afferentMap[pkgInfo.Path]
+			packagesInfo[index].AfferentCoupling = len(packagesInfo[index].Dependants)
+			packagesInfo[index].EfferentCoupling = packagesInfo[index].Dependencies.InternalsCount
+			packagesInfo[index].Instability = utils.RoundValue(float64(packagesInfo[index].EfferentCoupling) / float64(packagesInfo[index].EfferentCoupling + packagesInfo[index].AfferentCoupling))
 		}
 	}
 

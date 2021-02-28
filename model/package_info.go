@@ -6,6 +6,10 @@ type PackageInfo struct {
 	Files []string `json:"files"`
 	FilesCount int `json:"files_count"`
 	Dependencies *DependenciesInfo `json:"dependencies"`
+	Dependants []string `json:"dependants"`
+	AfferentCoupling int `json:"afferent_coupling"`
+	EfferentCoupling int `json:"efferent_coupling"`
+	Instability float64 `json:"instability"`
 }
 
 type PackagesSummary struct {
