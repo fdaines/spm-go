@@ -10,9 +10,9 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		fmt.Printf("Package;Files\n")
+		fmt.Printf("Package;Afferent;Efferent;Instability\n")
 		for _, p := range packages {
-			fmt.Printf("%s;%d\n", p.Path, p.FilesCount)
+			fmt.Printf("%s;%d;%d;%.2f\n", p.Path, p.AfferentCoupling, p.EfferentCoupling, p.Instability)
 		}
 	} else if format == "console" {
 		index := 1
