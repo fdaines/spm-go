@@ -3,7 +3,10 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/fdaines/spm-go/model"
+	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
+	"go/build"
 	"os"
 )
 
@@ -30,11 +33,32 @@ func ValidateArgs(cmd *cobra.Command, args []string) error {
 	return err
 }
 
-
 func validateOutputFormat(outputFormat string) error {
 	supportedOutputFormats := map[string]bool{"csv": true, "console": true, "json": true}
 	if !supportedOutputFormats[outputFormat] {
 		return errors.New("output format should be one of 'plain', 'console' or 'json'")
 	}
 	return nil
+}
+
+func getBasicPackagesInfo() []*model.PackageInfo {
+	var packagesInfo []*model.PackageInfo
+	var context = build.Default
+
+	pkgs, err := utils.GetPackages()
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	} else {
+		for _, packageName := range pkgs {
+			pkg, err := context.Import(packageName, "", 0)
+			if err == nil {
+				packagesInfo = append(packagesInfo, &model.PackageInfo{
+					Name:         pkg.Name,
+					Path:         pkg.ImportPath,
+				})
+			}
+		}
+	}
+
+	return packagesInfo
 }

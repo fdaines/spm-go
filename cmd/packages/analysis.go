@@ -1,33 +1,24 @@
 package packages
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/model"
-	"github.com/fdaines/spm-go/utils"
 	"go/build"
 )
 
-func AnalyzePackages() []*model.PackageInfo {
-	var packagesInfo []*model.PackageInfo
+func AnalyzePackages(packagesInfo []*model.PackageInfo) []*model.PackageInfo {
 	var context = build.Default
-
-	pkgs, err := utils.GetPackages()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-	} else {
-		for _, packageName := range pkgs {
-			pkg, err := context.Import(packageName, "", 0)
-			if err == nil {
-				packagesInfo = append(packagesInfo,
-					&model.PackageInfo{
-						Name: pkg.Name,
-						Path: pkg.ImportPath,
-						Files: pkg.GoFiles,
-						FilesCount: len(pkg.GoFiles),
-					})
-			}
+	for index, pkgInfo := range packagesInfo {
+		pkg, err := context.Import(pkgInfo.Path, "", 0)
+		if err == nil {
+			packagesInfo[index] = fillFiles(pkgInfo, pkg)
 		}
 	}
-
 	return packagesInfo
+}
+
+func fillFiles(packageInfo *model.PackageInfo, pkg *build.Package) *model.PackageInfo {
+	packageInfo.Files = pkg.GoFiles
+	packageInfo.FilesCount = len(pkg.GoFiles)
+
+	return packageInfo
 }

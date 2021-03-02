@@ -19,6 +19,7 @@ func init() {
 }
 
 func listPackages(cmd *cobra.Command, args []string) {
-	pkgsInfo := packages.AnalyzePackages()
+	pkgsInfo := getBasicPackagesInfo()
+	pkgsInfo = packages.AnalyzePackages(pkgsInfo)
 	packages.PrintPackages(pkgsInfo, OutputFormat)
 }
