@@ -10,6 +10,10 @@ type PackageInfo struct {
 	AfferentCoupling int `json:"afferent_coupling"`
 	EfferentCoupling int `json:"efferent_coupling"`
 	Instability float64 `json:"instability"`
+	AbstractnessDetails *AbstractnessDetails `json:"abstractness_details"`
+	AbstractionsCount int `json:"abstractions_count"`
+	ImplementationsCount int `json:"implementations_count"`
+	Abstractness float64 `json:"abstractness"`
 }
 
 type PackagesSummary struct {
@@ -24,4 +28,11 @@ type DependenciesInfo struct {
 	InternalsCount int `json:"internals_count,omitempty"`
 	ExternalsCount int `json:"externals_count,omitempty"`
 	TotalCount int `json:"count,omitempty"`
+}
+
+type AbstractnessDetails struct {
+	MethodsCount int `json:"methods,omitempty"`
+	FunctionsCount int `json:"functions,omitempty"`
+	InterfacesCount int `json:"interfaces,omitempty"`
+	StructsCount int `json:"structs,omitempty"`
 }
