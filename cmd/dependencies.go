@@ -19,6 +19,12 @@ func init() {
 }
 
 func listPackagesDependencies(cmd *cobra.Command, args []string) {
-	pkgsInfo := dependencies.AnalyzePackages()
+	pkgsInfo := getBasicPackagesInfo()
+	for index, pkgInfo := range pkgsInfo {
+		pkg, err := context.Import(pkgInfo.Path, "", 0)
+		if err == nil {
+			pkgsInfo[index] = dependencies.FillDependencies(pkgsInfo[index], pkg, pkgsInfo)
+		}
+	}
 	dependencies.PrintPackages(pkgsInfo, OutputFormat)
 }

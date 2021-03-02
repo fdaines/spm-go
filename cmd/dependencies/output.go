@@ -10,19 +10,20 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		fmt.Printf("Package;Internals;Externals;Total\n")
+		fmt.Printf("Package;Internals;Externals;Standard;Total\n")
 		for _, pkg := range packages {
-			fmt.Printf("%s;%d;%d;%d\n",
+			fmt.Printf("%s;%d;%d;%d;%d\n",
 				pkg.Path,
 				pkg.Dependencies.InternalsCount,
 				pkg.Dependencies.ExternalsCount,
+				pkg.Dependencies.StandardCount,
 				pkg.Dependencies.TotalCount)
 		}
 	} else if format == "console" {
 		index := 1
 		t := table.NewWriter()
 		t.SetOutputMirror(os.Stdout)
-		t.AppendHeader(table.Row{"#", "Package", "Internals", "Externals", "Total"})
+		t.AppendHeader(table.Row{"#", "Package", "Internals", "Externals", "Standard", "Total"})
 
 		for _, pkg := range packages {
 			t.AppendRows([]table.Row{
@@ -31,6 +32,7 @@ func PrintPackages(packages []*model.PackageInfo, format string) {
 					pkg.Path,
 					pkg.Dependencies.InternalsCount,
 					pkg.Dependencies.ExternalsCount,
+					pkg.Dependencies.StandardCount,
 					pkg.Dependencies.TotalCount,
 				},
 			})

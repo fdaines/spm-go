@@ -1,35 +1,20 @@
 package dependencies
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"go/build"
 )
 
-func AnalyzePackages() []*model.PackageInfo {
-	var packagesInfo []*model.PackageInfo
-	var context = build.Default
-
-	pkgs, err := utils.GetPackages()
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-	} else {
-		for _, packageName := range pkgs {
-			pkg, err := context.Import(packageName, "", 0)
-			if err == nil {
-				packageInfo := &model.PackageInfo{
-					Name:         pkg.Name,
-					Path:         pkg.ImportPath,
-				}
-				packageInfo.Dependencies = resolveDependencies(pkg, pkgs)
-				packagesInfo = append(packagesInfo, packageInfo)
-			}
-		}
+func FillDependencies(packageInfo *model.PackageInfo, pkg *build.Package, packagesInfo []*model.PackageInfo) *model.PackageInfo {
+	var pkgs []string
+	for _, current := range packagesInfo {
+		pkgs = append(pkgs, current.Path)
 	}
-
-	return packagesInfo
+	packageInfo.Dependencies = resolveDependencies(pkg, pkgs)
+	return packageInfo
 }
+
 
 func resolveDependencies(pkg *build.Package, pkgs []string) *model.DependenciesInfo {
 	internals, externals, standard := utils.FilterDependencies(pkg.Imports, pkgs)
