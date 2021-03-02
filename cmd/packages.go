@@ -20,6 +20,11 @@ func init() {
 
 func listPackages(cmd *cobra.Command, args []string) {
 	pkgsInfo := getBasicPackagesInfo()
-	pkgsInfo = packages.AnalyzePackages(pkgsInfo)
+	for index, pkgInfo := range pkgsInfo {
+		pkg, err := context.Import(pkgInfo.Path, "", 0)
+		if err == nil {
+			pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
+		}
+	}
 	packages.PrintPackages(pkgsInfo, OutputFormat)
 }
