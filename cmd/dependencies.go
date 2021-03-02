@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	dependenciesOutputFormat string
 	dependenciesCmd = &cobra.Command{
 		Use:   "dependencies",
 		Short: "Lists dependencies of each package",
@@ -17,15 +16,14 @@ var (
 
 func init() {
 	rootCmd.AddCommand(dependenciesCmd)
-	dependenciesCmd.Flags().StringVarP(&dependenciesOutputFormat, "format", "f", "console", "Output format")
 }
 
 func listPackagesDependencies(cmd *cobra.Command, args []string) {
 	pkgsInfo := dependencies.AnalyzePackages()
-	dependencies.PrintPackages(pkgsInfo, dependenciesOutputFormat)
+	dependencies.PrintPackages(pkgsInfo, OutputFormat)
 }
 
 func validateDependenciesArgs(cmd *cobra.Command, args []string) error {
-	err := dependencies.ValidateOutputFormat(dependenciesOutputFormat)
+	err := dependencies.ValidateOutputFormat(OutputFormat)
 	return err
 }

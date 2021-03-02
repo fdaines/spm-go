@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	outputFormat string
 	packagesCmd = &cobra.Command{
 		Use:   "packages",
 		Short: "Lists packages",
@@ -17,15 +16,14 @@ var (
 
 func init() {
 	rootCmd.AddCommand(packagesCmd)
-	packagesCmd.Flags().StringVarP(&outputFormat, "format", "f", "console", "Output format")
 }
 
 func listPackages(cmd *cobra.Command, args []string) {
 	pkgsInfo := packages.AnalyzePackages()
-	packages.PrintPackages(pkgsInfo, outputFormat)
+	packages.PrintPackages(pkgsInfo, OutputFormat)
 }
 
 func validateArgs(cmd *cobra.Command, args []string) error {
-	err := packages.ValidateOutputFormat(outputFormat)
+	err := packages.ValidateOutputFormat(OutputFormat)
 	return err
 }

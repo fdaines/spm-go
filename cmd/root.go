@@ -19,3 +19,8 @@ var rootCmd = &cobra.Command{
 	Short: "Software Package Metrics for Go",
 	Long: "Software Package Metrics for Go",
 }
+
+func init() {
+	rootCmd.PersistentFlags().StringVarP(&OutputFormat, "format", "f", "console", "Output format")
+}
+
