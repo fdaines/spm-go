@@ -9,7 +9,7 @@ var (
 	instabilityCmd = &cobra.Command{
 		Use:   "instability",
 		Short: "Analyzes instability of packages",
-		Args:  validateInstabilityArgs,
+		Args:  ValidateArgs,
 		Run:   analyzeInstability,
 	}
 )
@@ -21,9 +21,4 @@ func init() {
 func analyzeInstability(cmd *cobra.Command, args []string) {
 	pkgsInfo := instability.AnalyzePackages()
 	instability.PrintPackages(pkgsInfo, OutputFormat)
-}
-
-func validateInstabilityArgs(cmd *cobra.Command, args []string) error {
-	err := instability.ValidateOutputFormat(OutputFormat)
-	return err
 }

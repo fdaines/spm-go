@@ -18,23 +18,29 @@ func AnalyzePackages() []*model.PackageInfo {
 		for _, packageName := range pkgs {
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
-				internals, externals := utils.FilterDependencies(pkg.Imports, pkgs)
-				depInfo := &model.DependenciesInfo{
-					Externals: externals,
-					Internals: internals,
-					ExternalsCount: len(externals),
-					InternalsCount: len(internals),
-					TotalCount: len(pkg.Imports),
+				packageInfo := &model.PackageInfo{
+					Name:         pkg.Name,
+					Path:         pkg.ImportPath,
 				}
-				packagesInfo = append(packagesInfo,
-					&model.PackageInfo{
-						Name: pkg.Name,
-						Path: pkg.ImportPath,
-						Dependencies: depInfo,
-					})
+				packageInfo.Dependencies = resolveDependencies(pkg, pkgs)
+				packagesInfo = append(packagesInfo, packageInfo)
 			}
 		}
 	}
 
 	return packagesInfo
+}
+
+func resolveDependencies(pkg *build.Package, pkgs []string) *model.DependenciesInfo {
+	internals, externals, standard := utils.FilterDependencies(pkg.Imports, pkgs)
+	depInfo := &model.DependenciesInfo{
+		Standard:       standard,
+		Externals:      externals,
+		Internals:      internals,
+		StandardCount:  len(standard),
+		ExternalsCount: len(externals),
+		InternalsCount: len(internals),
+		TotalCount:     len(pkg.Imports),
+	}
+	return depInfo
 }

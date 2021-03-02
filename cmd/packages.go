@@ -9,7 +9,7 @@ var (
 	packagesCmd = &cobra.Command{
 		Use:   "packages",
 		Short: "Lists packages",
-		Args:  validateArgs,
+		Args:  ValidateArgs,
 		Run:   listPackages,
 	}
 )
@@ -21,9 +21,4 @@ func init() {
 func listPackages(cmd *cobra.Command, args []string) {
 	pkgsInfo := packages.AnalyzePackages()
 	packages.PrintPackages(pkgsInfo, OutputFormat)
-}
-
-func validateArgs(cmd *cobra.Command, args []string) error {
-	err := packages.ValidateOutputFormat(OutputFormat)
-	return err
 }

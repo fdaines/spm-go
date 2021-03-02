@@ -19,7 +19,7 @@ func AnalyzePackages() []*model.PackageInfo {
 		for _, packageName := range pkgs {
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
-				internals, externals := utils.FilterDependencies(pkg.Imports, pkgs)
+				internals, externals, _ := utils.FilterDependencies(pkg.Imports, pkgs)
 				depInfo := &model.DependenciesInfo{
 					Externals: externals,
 					Internals: internals,

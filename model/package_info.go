@@ -17,8 +17,10 @@ type PackagesSummary struct {
 }
 
 type DependenciesInfo struct {
+	Standard []string `json:"standard"`
 	Internals []string `json:"internals"`
 	Externals []string `json:"externals"`
+	StandardCount int `json:"standard_count"`
 	InternalsCount int `json:"internals_count"`
 	ExternalsCount int `json:"externals_count"`
 	TotalCount int `json:"count"`

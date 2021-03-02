@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
@@ -24,3 +25,16 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&OutputFormat, "format", "f", "console", "Output format")
 }
 
+func ValidateArgs(cmd *cobra.Command, args []string) error {
+	err := validateOutputFormat(OutputFormat)
+	return err
+}
+
+
+func validateOutputFormat(outputFormat string) error {
+	supportedOutputFormats := map[string]bool{"csv": true, "console": true, "json": true}
+	if !supportedOutputFormats[outputFormat] {
+		return errors.New("output format should be one of 'plain', 'console' or 'json'")
+	}
+	return nil
+}

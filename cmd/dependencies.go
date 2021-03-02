@@ -9,7 +9,7 @@ var (
 	dependenciesCmd = &cobra.Command{
 		Use:   "dependencies",
 		Short: "Lists dependencies of each package",
-		Args:  validateDependenciesArgs,
+		Args:  ValidateArgs,
 		Run:   listPackagesDependencies,
 	}
 )
@@ -21,9 +21,4 @@ func init() {
 func listPackagesDependencies(cmd *cobra.Command, args []string) {
 	pkgsInfo := dependencies.AnalyzePackages()
 	dependencies.PrintPackages(pkgsInfo, OutputFormat)
-}
-
-func validateDependenciesArgs(cmd *cobra.Command, args []string) error {
-	err := dependencies.ValidateOutputFormat(OutputFormat)
-	return err
 }
