@@ -11,7 +11,7 @@ func ExecuteWithTimer(fn command) {
 	start := time.Now()
 	fn()
 	elapsed := time.Since(start)
-	PrintMessage(fmt.Sprintf("Time: %.3f seconds", elapsed.Seconds()))
+	PrintMessage(fmt.Sprintf("Time: %.3f seconds\n", elapsed.Seconds()))
 }
 
 

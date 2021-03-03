@@ -24,6 +24,7 @@ func listPackagesDependencies(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Dependencies analysis started.")
 		pkgsInfo := getBasicPackagesInfo()
+		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {

@@ -17,6 +17,6 @@ func GetPackages() ([]string, error) {
 	for _, pkg := range pkgs {
 		packages = append(packages, pkg.PkgPath)
 	}
-	PrintVerboseMessage(fmt.Sprintf("Should load data from %d packages...", len(packages)))
+	PrintMessage(fmt.Sprintf("%d packages found...", len(packages)))
 	return packages, nil
 }
