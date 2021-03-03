@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/fdaines/spm-go/cmd/packages"
+	"github.com/fdaines/spm-go/common"
 	"github.com/spf13/cobra"
 )
 
@@ -26,5 +27,5 @@ func listPackages(cmd *cobra.Command, args []string) {
 			pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
 		}
 	}
-	packages.PrintPackages(pkgsInfo, OutputFormat)
+	packages.PrintPackages(pkgsInfo, common.OutputFormat)
 }

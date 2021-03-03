@@ -1,4 +1,4 @@
-package instability
+package distance
 
 import (
 	"encoding/json"
@@ -11,24 +11,24 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		utils.PrintMessage("Package;Afferent;Efferent;Instability\n")
+		utils.PrintMessage("Package;Instability;Abstractness;Distance\n")
 		for _, p := range packages {
-			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%.2f\n", p.Path, p.AfferentCoupling, p.EfferentCoupling, p.Instability))
+			utils.PrintMessage(fmt.Sprintf("%s;%.2f;%.2f;%.2f\n", p.Path, p.Instability, p.Abstractness, p.Distance))
 		}
 	} else if format == "console" {
 		index := 1
 		t := table.NewWriter()
 		t.SetOutputMirror(os.Stdout)
-		t.AppendHeader(table.Row{"#", "Package", "Afferent", "Efferent", "Instability"})
+		t.AppendHeader(table.Row{"#", "Package", "Instability", "Abstractness", "Distance"})
 
 		for _, pkg := range packages {
 			t.AppendRows([]table.Row{
 				{
 					index,
 					pkg.Path,
-					pkg.AfferentCoupling,
-					pkg.EfferentCoupling,
 					pkg.Instability,
+					pkg.Abstractness,
+					pkg.Distance,
 				},
 			})
 			index = index + 1

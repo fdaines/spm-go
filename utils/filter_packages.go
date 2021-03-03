@@ -3,9 +3,9 @@ package utils
 import "strings"
 
 func FilterDependencies(dependencies []string, internalPackages []string) ([]string, []string, []string) {
-	var internals []string
-	var externals []string
-	var standard []string
+	internals := []string{}
+	externals := []string{}
+	standard := []string{}
 
 	for _,dep := range dependencies {
 		if SliceContains(internalPackages, dep) {

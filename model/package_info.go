@@ -14,6 +14,7 @@ type PackageInfo struct {
 	AbstractionsCount int `json:"abstractions_count"`
 	ImplementationsCount int `json:"implementations_count"`
 	Abstractness float64 `json:"abstractness"`
+	Distance float64 `json:"distance"`
 }
 
 type PackagesSummary struct {

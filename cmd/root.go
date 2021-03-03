@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
@@ -12,7 +13,7 @@ import (
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		utils.PrintMessage(err.Error())
 		os.Exit(1)
 	}
 }
@@ -26,11 +27,12 @@ var rootCmd = &cobra.Command{
 var context = build.Default
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&OutputFormat, "format", "f", "console", "Output format")
+	rootCmd.PersistentFlags().StringVarP(&common.OutputFormat, "format", "f", "console", "Output format")
+	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
 }
 
 func ValidateArgs(cmd *cobra.Command, args []string) error {
-	err := validateOutputFormat(OutputFormat)
+	err := validateOutputFormat(common.OutputFormat)
 	return err
 }
 
@@ -48,9 +50,13 @@ func getBasicPackagesInfo() []*model.PackageInfo {
 
 	pkgs, err := utils.GetPackages()
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		utils.PrintMessage(fmt.Sprintf(
+			"Error: %v\n",
+			err,
+		))
 	} else {
 		for _, packageName := range pkgs {
+			utils.PrintVerboseMessage(fmt.Sprintf("Checking package: %s", packageName))
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{

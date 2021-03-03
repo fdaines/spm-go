@@ -4,15 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fdaines/spm-go/model"
+	"github.com/fdaines/spm-go/utils"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"os"
 )
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		fmt.Printf("Package;Abstractions;Implementations;Abstractness\n")
+		utils.PrintMessage("Package;Abstractions;Implementations;Abstractness\n")
 		for _, p := range packages {
-			fmt.Printf("%s;%d;%d;%.2f\n", p.Path, p.AbstractionsCount, p.ImplementationsCount, p.Abstractness)
+			utils.PrintMessage(fmt.Sprintf(
+				"%s;%d;%d;%.2f\n",
+				p.Path,
+				p.AbstractionsCount,
+				p.ImplementationsCount,
+				p.Abstractness,
+			))
 		}
 	} else if format == "console" {
 		index := 1
@@ -39,8 +46,8 @@ func PrintPackages(packages []*model.PackageInfo, format string) {
 		}
 		b, err := json.MarshalIndent(summary, "", "    ")
 		if err != nil {
-			fmt.Println(err)
+			utils.PrintMessage(fmt.Sprintf("%v\n", err))
 		}
-		fmt.Printf("%s\n", string(b))
+		utils.PrintMessage(fmt.Sprintf("%s\n", string(b)))
 	}
 }

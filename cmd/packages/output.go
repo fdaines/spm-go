@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fdaines/spm-go/model"
+	"github.com/fdaines/spm-go/utils"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"os"
 )
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		fmt.Printf("Package;Files\n")
+		utils.PrintMessage("Package;Files\n")
 		for _, p := range packages {
-			fmt.Printf("%s;%d\n", p.Path, p.FilesCount)
+			utils.PrintMessage(fmt.Sprintf("%s;%d\n", p.Path, p.FilesCount))
 		}
 	} else if format == "console" {
 		index := 1
@@ -33,8 +34,8 @@ func PrintPackages(packages []*model.PackageInfo, format string) {
 		}
 		b, err := json.MarshalIndent(summary, "", "    ")
 		if err != nil {
-			fmt.Println(err)
+			utils.PrintMessage(fmt.Sprintf("%v\n", err))
 		}
-		fmt.Printf("%s\n", string(b))
+		utils.PrintMessage(fmt.Sprintf("%s\n", string(b)))
 	}
 }
