@@ -28,6 +28,7 @@ func init() {
 }
 
 func analyzeAbstractness(cmd *cobra.Command, args []string) {
+	utils.PrintMessage("Abstractness analysis started.")
 	pkgsInfo := getBasicPackagesInfo()
 	for index, pkgInfo := range pkgsInfo {
 		pkg, err := context.Import(pkgInfo.Path, "", 0)

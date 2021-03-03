@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/fdaines/spm-go/cmd/packages"
 	"github.com/fdaines/spm-go/common"
+	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -20,6 +21,7 @@ func init() {
 }
 
 func listPackages(cmd *cobra.Command, args []string) {
+	utils.PrintMessage("Packages analysis started.")
 	pkgsInfo := getBasicPackagesInfo()
 	for index, pkgInfo := range pkgsInfo {
 		pkg, err := context.Import(pkgInfo.Path, "", 0)

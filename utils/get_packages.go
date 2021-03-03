@@ -7,7 +7,7 @@ import (
 )
 
 func GetPackages() ([]string, error) {
-	PrintVerboseMessage(fmt.Sprintf("Searching for packages."))
+	PrintVerboseMessage(fmt.Sprintf("Looking for packages."))
 	cfg := &packages.Config{}
 	pkgs, err := packages.Load(cfg, "./...")
 	if err != nil {
@@ -17,6 +17,6 @@ func GetPackages() ([]string, error) {
 	for _, pkg := range pkgs {
 		packages = append(packages, pkg.PkgPath)
 	}
-	PrintVerboseMessage(fmt.Sprintf("Loading data from %d packages...", len(packages)))
+	PrintVerboseMessage(fmt.Sprintf("Should load data from %d packages...", len(packages)))
 	return packages, nil
 }

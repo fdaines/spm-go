@@ -23,6 +23,7 @@ func init() {
 }
 
 func analyzeDistance(cmd *cobra.Command, args []string) {
+	utils.PrintMessage("Distance from main sequence analysis started.")
 	var afferentMap = make(map[string][]string)
 	pkgsInfo := getBasicPackagesInfo()
 	for index, pkgInfo := range pkgsInfo {

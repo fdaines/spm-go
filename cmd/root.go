@@ -56,7 +56,7 @@ func getBasicPackagesInfo() []*model.PackageInfo {
 		))
 	} else {
 		for _, packageName := range pkgs {
-			utils.PrintVerboseMessage(fmt.Sprintf("Checking package: %s", packageName))
+			utils.PrintVerboseMessage(fmt.Sprintf("Loading package: %s", packageName))
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{
