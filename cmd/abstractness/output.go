@@ -11,10 +11,9 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		utils.PrintMessage("Package;Abstractions;Implementations;Abstractness\n")
+		utils.PrintMessage("Package;Abstractions;Implementations;Abstractness")
 		for _, p := range packages {
-			utils.PrintMessage(fmt.Sprintf(
-				"%s;%d;%d;%.2f\n",
+			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%.2f",
 				p.Path,
 				p.AbstractionsCount,
 				p.ImplementationsCount,

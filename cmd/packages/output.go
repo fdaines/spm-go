@@ -11,9 +11,9 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		utils.PrintMessage("Package;Files\n")
+		utils.PrintMessage("Package;Files")
 		for _, p := range packages {
-			utils.PrintMessage(fmt.Sprintf("%s;%d\n", p.Path, p.FilesCount))
+			utils.PrintMessage(fmt.Sprintf("%s;%d", p.Path, p.FilesCount))
 		}
 	} else if format == "console" {
 		index := 1

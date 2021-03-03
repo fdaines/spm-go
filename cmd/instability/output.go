@@ -11,9 +11,9 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		utils.PrintMessage("Package;Afferent;Efferent;Instability\n")
+		utils.PrintMessage("Package;Afferent;Efferent;Instability")
 		for _, p := range packages {
-			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%.2f\n", p.Path, p.AfferentCoupling, p.EfferentCoupling, p.Instability))
+			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%.2f", p.Path, p.AfferentCoupling, p.EfferentCoupling, p.Instability))
 		}
 	} else if format == "console" {
 		index := 1

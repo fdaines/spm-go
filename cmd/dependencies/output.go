@@ -11,9 +11,9 @@ import (
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
 	if format == "csv" {
-		utils.PrintMessage("Package;Internals;Externals;Standard;Total\n")
+		utils.PrintMessage("Package;Internals;Externals;Standard;Total")
 		for _, pkg := range packages {
-			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%d;%d\n",
+			utils.PrintMessage(fmt.Sprintf("%s;%d;%d;%d;%d",
 				pkg.Path,
 				pkg.Dependencies.InternalsCount,
 				pkg.Dependencies.ExternalsCount,
