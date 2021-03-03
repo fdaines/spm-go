@@ -21,13 +21,15 @@ func init() {
 }
 
 func listPackages(cmd *cobra.Command, args []string) {
-	utils.PrintMessage("Packages analysis started.")
-	pkgsInfo := getBasicPackagesInfo()
-	for index, pkgInfo := range pkgsInfo {
-		pkg, err := context.Import(pkgInfo.Path, "", 0)
-		if err == nil {
-			pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
+	utils.ExecuteWithTimer(func() {
+		utils.PrintMessage("Packages analysis started.")
+		pkgsInfo := getBasicPackagesInfo()
+		for index, pkgInfo := range pkgsInfo {
+			pkg, err := context.Import(pkgInfo.Path, "", 0)
+			if err == nil {
+				pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
+			}
 		}
-	}
-	packages.PrintPackages(pkgsInfo, common.OutputFormat)
+		packages.PrintPackages(pkgsInfo, common.OutputFormat)
+	})
 }

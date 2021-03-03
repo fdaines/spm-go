@@ -28,19 +28,21 @@ func init() {
 }
 
 func analyzeAbstractness(cmd *cobra.Command, args []string) {
-	utils.PrintMessage("Abstractness analysis started.")
-	pkgsInfo := getBasicPackagesInfo()
-	for index, pkgInfo := range pkgsInfo {
-		pkg, err := context.Import(pkgInfo.Path, "", 0)
-		if err == nil {
-			abstractnessInfo, _ := retrieveAbstractnessInfo(pkg)
-			pkgsInfo[index].AbstractnessDetails = abstractnessInfo
-			pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
-			pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
-			pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
+	utils.ExecuteWithTimer(func() {
+		utils.PrintMessage("Abstractness analysis started.")
+		pkgsInfo := getBasicPackagesInfo()
+		for index, pkgInfo := range pkgsInfo {
+			pkg, err := context.Import(pkgInfo.Path, "", 0)
+			if err == nil {
+				abstractnessInfo, _ := retrieveAbstractnessInfo(pkg)
+				pkgsInfo[index].AbstractnessDetails = abstractnessInfo
+				pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
+				pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
+				pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
+			}
 		}
-	}
-	abstractness.PrintPackages(pkgsInfo, common.OutputFormat)
+		abstractness.PrintPackages(pkgsInfo, common.OutputFormat)
+	})
 }
 
 func retrieveAbstractnessInfo(pkg *build.Package) (*model.AbstractnessDetails, error) {
