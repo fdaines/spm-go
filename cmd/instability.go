@@ -52,5 +52,5 @@ func calculateInstability(pksInfo *model.PackageInfo) float64 {
 		return 1
 	}
 	return utils.RoundValue(
-		float64(pksInfo.EfferentCoupling) / float64(pksInfo.EfferentCoupling + pksInfo.AfferentCoupling))
+		float64(pksInfo.EfferentCoupling) / float64(pksInfo.EfferentCoupling+pksInfo.AfferentCoupling))
 }

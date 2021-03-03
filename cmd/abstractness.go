@@ -89,5 +89,5 @@ func calculateAbstractness(abstractions int, implementations int) float64 {
 	if total == 0 {
 		total = 1
 	}
-	return utils.RoundValue(float64(abstractions)/float64(total))
+	return utils.RoundValue(float64(abstractions) / float64(total))
 }

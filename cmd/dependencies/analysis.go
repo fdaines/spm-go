@@ -15,7 +15,6 @@ func FillDependencies(packageInfo *model.PackageInfo, pkg *build.Package, packag
 	return packageInfo
 }
 
-
 func resolveDependencies(pkg *build.Package, pkgs []string) *model.DependenciesInfo {
 	internals, externals, standard := utils.FilterDependencies(pkg.Imports, pkgs)
 	depInfo := &model.DependenciesInfo{

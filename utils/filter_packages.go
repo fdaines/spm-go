@@ -7,7 +7,7 @@ func FilterDependencies(dependencies []string, internalPackages []string) ([]str
 	externals := []string{}
 	standard := []string{}
 
-	for _,dep := range dependencies {
+	for _, dep := range dependencies {
 		if SliceContains(internalPackages, dep) {
 			internals = append(internals, dep)
 		} else {

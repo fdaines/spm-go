@@ -19,10 +19,10 @@ func Execute() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "spm",
+	Use:     "spm",
 	Version: "0.9.0",
-	Short: "Software Package Metrics for Go",
-	Long: "Software Package Metrics for Go",
+	Short:   "Software Package Metrics for Go",
+	Long:    "Software Package Metrics for Go",
 }
 var context = build.Default
 
@@ -60,8 +60,8 @@ func getBasicPackagesInfo() []*model.PackageInfo {
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{
-					Name:         pkg.Name,
-					Path:         pkg.ImportPath,
+					Name: pkg.Name,
+					Path: pkg.ImportPath,
 				})
 			}
 		}
