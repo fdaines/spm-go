@@ -5,8 +5,6 @@ import (
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
-	"github.com/jedib0t/go-pretty/v6/table"
-	"os"
 )
 
 func PrintPackages(packages []*model.PackageInfo, format string) {
@@ -25,40 +23,17 @@ func PrintPackages(packages []*model.PackageInfo, format string) {
 			))
 		}
 	} else if format == "console" {
-		index := 1
-		t := table.NewWriter()
-		t.SetOutputMirror(os.Stdout)
-		t.AppendHeader(table.Row{
-			"#",
-			"Package",
-			"Files",
-			"Afferent",
-			"Efferent",
-			"Abstractions",
-			"Implementations",
-			"Instability",
-			"Abstractness",
-			"Distance",
-		})
-
-		for _, pkg := range packages {
-			t.AppendRows([]table.Row{
-				{
-					index,
-					pkg.Path,
-					pkg.FilesCount,
-					pkg.AfferentCoupling,
-					pkg.EfferentCoupling,
-					pkg.AbstractionsCount,
-					pkg.ImplementationsCount,
-					pkg.Instability,
-					pkg.Abstractness,
-					pkg.Distance,
-				},
-			})
-			index = index + 1
+		outputColumns := []output.MetricOutput{
+			output.FilesCount,
+			output.AfferentCoupling,
+			output.EfferentCoupling,
+			output.Abstractions,
+			output.Implementations,
+			output.Instability,
+			output.Abstractness,
+			output.Distance,
 		}
-		t.Render()
+		output.ConsoleFormatter(packages, outputColumns)
 	} else if format == "json" {
 		output.JsonFormatter(packages)
 	}
