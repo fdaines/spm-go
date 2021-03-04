@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/fdaines/spm-go/cmd/abstractness"
 	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
@@ -11,7 +12,9 @@ import (
 	"go/parser"
 	"go/token"
 	"io/ioutil"
+	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -32,10 +35,15 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Abstractness analysis started.")
 		pkgsInfo := getBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
+		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
-				abstractnessInfo, _ := retrieveAbstractnessInfo(pkg)
+				abstractnessInfo, err := retrieveAbstractnessInfo(pkg, mainPackage)
+				if err != nil {
+					fmt.Printf("Error: %+v\n", err)
+					return
+				}
 				pkgsInfo[index].AbstractnessDetails = abstractnessInfo
 				pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
 				pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
@@ -46,11 +54,16 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 	})
 }
 
-func retrieveAbstractnessInfo(pkg *build.Package) (*model.AbstractnessDetails, error) {
+func retrieveAbstractnessInfo(pkg *build.Package, mainPackage string) (*model.AbstractnessDetails, error) {
 	var methods, functions, interfaces, structs int
+	path, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	packageDir := strings.Replace(pkg.ImportPath, mainPackage, path, 1)
 
 	for _, srcFile := range pkg.GoFiles {
-		data, err := ioutil.ReadFile(filepath.Join(pkg.SrcRoot, pkg.ImportPath, srcFile))
+		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
 			return nil, err
 		}

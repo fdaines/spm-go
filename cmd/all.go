@@ -28,6 +28,7 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 		var afferentMap = make(map[string][]string)
 		pkgsInfo := getBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
+		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
@@ -36,7 +37,7 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 				for _, current := range pkgsInfo[index].Dependencies.Internals {
 					afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 				}
-				abstractnessInfo, _ := retrieveAbstractnessInfo(pkg)
+				abstractnessInfo, _ := retrieveAbstractnessInfo(pkg, mainPackage)
 				pkgsInfo[index].AbstractnessDetails = abstractnessInfo
 				pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
 				pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
