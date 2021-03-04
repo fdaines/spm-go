@@ -1,10 +1,10 @@
 package instability
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
+	"github.com/fdaines/spm-go/utils/output"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"os"
 )
@@ -35,13 +35,6 @@ func PrintPackages(packages []*model.PackageInfo, format string) {
 		}
 		t.Render()
 	} else if format == "json" {
-		summary := &model.PackagesSummary{
-			Packages: packages,
-		}
-		b, err := json.MarshalIndent(summary, "", "    ")
-		if err != nil {
-			utils.PrintMessage(fmt.Sprintf("%v\n", err))
-		}
-		utils.PrintMessage(fmt.Sprintf("%s\n", string(b)))
+		output.JsonFormatter(packages)
 	}
 }
