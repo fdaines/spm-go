@@ -31,9 +31,13 @@ func init() {
 func analyzeAbstractness(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Abstractness analysis started.")
+		mainPackage, err := getMainPackage()
+		if err != nil {
+			fmt.Printf("Error: %+v\n", err)
+			return
+		}
 		pkgsInfo := getBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
-		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/fdaines/spm-go/cmd/dependencies"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
@@ -23,10 +24,14 @@ func init() {
 func analyzeDistance(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Distance from main sequence analysis started.")
+		mainPackage, err := getMainPackage()
+		if err != nil {
+			fmt.Printf("Error: %+v\n", err)
+			return
+		}
 		var afferentMap = make(map[string][]string)
 		pkgsInfo := getBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
-		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
@@ -35,7 +40,11 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 				for _, current := range pkgsInfo[index].Dependencies.Internals {
 					afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 				}
-				abstractnessInfo, _ := retrieveAbstractnessInfo(pkg, mainPackage)
+				abstractnessInfo, err := retrieveAbstractnessInfo(pkg, mainPackage)
+				if err != nil {
+					fmt.Printf("Error: %+v\n", err)
+					return
+				}
 				pkgsInfo[index].AbstractnessDetails = abstractnessInfo
 				pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
 				pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount

@@ -8,6 +8,8 @@ import (
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
 	"go/build"
+	"golang.org/x/mod/modfile"
+	"io/ioutil"
 	"os"
 )
 
@@ -42,6 +44,22 @@ func validateOutputFormat(outputFormat string) error {
 		return errors.New("formatters format should be one of 'plain', 'console' or 'json'")
 	}
 	return nil
+}
+
+const goModFile = "go.mod"
+func getMainPackage() (string, error) {
+	if _, err := os.Stat(goModFile); err == nil {
+		content, _ := ioutil.ReadFile(goModFile)
+		modulePath := modfile.ModulePath(content)
+		fmt.Printf("Module: %s\n", modulePath)
+		return modulePath, nil
+	} else if os.IsNotExist(err) {
+		fmt.Printf("Could not load %s file.\n", goModFile)
+		return "", err
+	} else {
+		fmt.Printf("Could not load %s file.\n", goModFile)
+		return "", err
+	}
 }
 
 func getBasicPackagesInfo() []*model.PackageInfo {
