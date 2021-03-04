@@ -10,7 +10,7 @@ type MetricOutput struct {
 }
 
 var FilesCount = MetricOutput{
-	Title: "Files Count",
+	Title: "Files",
 	Value: func (pkg *model.PackageInfo) interface{} {
 		return pkg.FilesCount
 	},

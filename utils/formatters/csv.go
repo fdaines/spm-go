@@ -8,14 +8,14 @@ import (
 )
 
 func csvFormatter(packages []*model.PackageInfo, columns []MetricOutput) {
-	header := []string{"Package"}
+	header := []string{"Package", "Path"}
 	for _, c := range columns {
 		header = append(header, c.Title)
 	}
 	utils.PrintMessage(strings.Join(header, ";"))
 
 	for _, p := range packages {
-		values := []string{p.Path}
+		values := []string{p.Name, p.Path}
 		for _, c := range columns {
 			values = append(values, fmt.Sprintf("%v", c.Value(p)))
 		}
