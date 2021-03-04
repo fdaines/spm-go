@@ -14,3 +14,9 @@ func PrintVerboseMessage(message string) {
 		fmt.Println(message)
 	}
 }
+
+func PrintStep() {
+	if common.Verbose {
+		fmt.Print(".")
+	}
+}

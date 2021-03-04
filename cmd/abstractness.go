@@ -35,6 +35,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
+			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
 				abstractnessInfo, err := retrieveAbstractnessInfo(pkg, mainPackage)
@@ -48,6 +49,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 				pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
 			}
 		}
+		utils.PrintVerboseMessage("Done.")
 		printAbstractness(pkgsInfo)
 	})
 }

@@ -28,6 +28,7 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		mainPackage := pkgsInfo[0].Path
 		for index, pkgInfo := range pkgsInfo {
+			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
 				pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
@@ -43,12 +44,14 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 			}
 		}
 		for index, pkgInfo := range pkgsInfo {
+			utils.PrintStep()
 			pkgsInfo[index].Dependants = afferentMap[pkgInfo.Path]
 			pkgsInfo[index].AfferentCoupling = len(pkgsInfo[index].Dependants)
 			pkgsInfo[index].EfferentCoupling = pkgsInfo[index].Dependencies.InternalsCount
 			pkgsInfo[index].Instability = calculateInstability(pkgsInfo[index])
 			pkgsInfo[index].Distance = calculateDistance(pkgsInfo[index].Instability, pkgsInfo[index].Abstractness)
 		}
+		utils.PrintVerboseMessage("Done.")
 		printAll(pkgsInfo)
 	})
 }

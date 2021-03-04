@@ -25,11 +25,13 @@ func listPackages(cmd *cobra.Command, args []string) {
 		pkgsInfo := getBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
+			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
 				pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
 			}
 		}
+		utils.PrintVerboseMessage("Done.")
 		printPackages(pkgsInfo)
 	})
 }
