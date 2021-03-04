@@ -20,7 +20,7 @@ func Execute() {
 
 var rootCmd = &cobra.Command{
 	Use:     "spm",
-	Version: "0.9.2",
+	Version: "0.9.3",
 	Short:   "Software Package Metrics for Go",
 	Long:    "Software Package Metrics for Go",
 }
