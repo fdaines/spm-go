@@ -39,7 +39,7 @@ func ValidateArgs(cmd *cobra.Command, args []string) error {
 func validateOutputFormat(outputFormat string) error {
 	supportedOutputFormats := map[string]bool{"csv": true, "console": true, "json": true}
 	if !supportedOutputFormats[outputFormat] {
-		return errors.New("output format should be one of 'plain', 'console' or 'json'")
+		return errors.New("formatters format should be one of 'plain', 'console' or 'json'")
 	}
 	return nil
 }

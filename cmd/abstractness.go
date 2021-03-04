@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fdaines/spm-go/cmd/abstractness"
-	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
@@ -50,7 +48,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 				pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
 			}
 		}
-		abstractness.PrintPackages(pkgsInfo, common.OutputFormat)
+		printAbstractness(pkgsInfo)
 	})
 }
 

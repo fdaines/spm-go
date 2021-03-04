@@ -1,4 +1,4 @@
-package output
+package formatters
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func CsvFormatter(packages []*model.PackageInfo, columns []MetricOutput) {
+func csvFormatter(packages []*model.PackageInfo, columns []MetricOutput) {
 	header := []string{"Package"}
 	for _, c := range columns {
 		header = append(header, c.Title)

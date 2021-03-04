@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"github.com/fdaines/spm-go/cmd/dependencies"
-	"github.com/fdaines/spm-go/cmd/distance"
-	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
 	"math"
@@ -50,7 +48,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 			pkgsInfo[index].Instability = calculateInstability(pkgsInfo[index])
 			pkgsInfo[index].Distance = calculateDistance(pkgsInfo[index].Instability, pkgsInfo[index].Abstractness)
 		}
-		distance.PrintPackages(pkgsInfo, common.OutputFormat)
+		printDistance(pkgsInfo)
 	})
 }
 

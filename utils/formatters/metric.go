@@ -1,4 +1,4 @@
-package output
+package formatters
 
 import "github.com/fdaines/spm-go/model"
 
@@ -18,24 +18,36 @@ var FilesCount = MetricOutput{
 var InternalDependencies = MetricOutput{
 	Title: "Internals",
 	Value: func (pkg *model.PackageInfo) interface{} {
+		if pkg.Dependencies == nil {
+			return "-"
+		}
 		return pkg.Dependencies.InternalsCount
 	},
 }
 var ExternalDependencies = MetricOutput{
 	Title: "Externals",
 	Value: func (pkg *model.PackageInfo) interface{} {
+		if pkg.Dependencies == nil {
+			return "-"
+		}
 		return pkg.Dependencies.ExternalsCount
 	},
 }
 var StandardDependencies = MetricOutput{
 	Title: "Standard",
 	Value: func (pkg *model.PackageInfo) interface{} {
+		if pkg.Dependencies == nil {
+			return "-"
+		}
 		return pkg.Dependencies.StandardCount
 	},
 }
 var TotalDependencies = MetricOutput{
 	Title: "Total",
 	Value: func (pkg *model.PackageInfo) interface{} {
+		if pkg.Dependencies == nil {
+			return "-"
+		}
 		return pkg.Dependencies.TotalCount
 	},
 }

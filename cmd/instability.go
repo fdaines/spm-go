@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"github.com/fdaines/spm-go/cmd/dependencies"
-	"github.com/fdaines/spm-go/cmd/instability"
-	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
@@ -43,7 +41,7 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 			pkgsInfo[index].EfferentCoupling = pkgsInfo[index].Dependencies.InternalsCount
 			pkgsInfo[index].Instability = calculateInstability(pkgsInfo[index])
 		}
-		instability.PrintPackages(pkgsInfo, common.OutputFormat)
+		printInstability(pkgsInfo)
 	})
 }
 

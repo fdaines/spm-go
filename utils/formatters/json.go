@@ -1,4 +1,4 @@
-package output
+package formatters
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"github.com/fdaines/spm-go/utils"
 )
 
-func JsonFormatter(packages []*model.PackageInfo) {
+func jsonFormatter(packages []*model.PackageInfo) {
 	summary := &model.PackagesSummary{
 		Packages: packages,
 	}

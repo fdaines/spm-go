@@ -1,4 +1,4 @@
-package output
+package formatters
 
 import (
 	"github.com/fdaines/spm-go/model"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ConsoleFormatter(packages []*model.PackageInfo, columns []MetricOutput) {
+func consoleFormatter(packages []*model.PackageInfo, columns []MetricOutput) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	header := table.Row{"#", "Package"}
