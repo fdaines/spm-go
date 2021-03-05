@@ -1,6 +1,6 @@
 package templates
 
-const HtmlFullTemplate = `
+const HtmlInstabilityTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,26 +83,16 @@ const HtmlFullTemplate = `
 <body>
 <h1>Software Package Metrics for Go - v{{.Version}}</h1>
 <h2>Results for Module: {{.Module}}</h2>
-<h2>Full Analysis</h2>
+<h2>Instability Analysis</h2>
 <div class="results">
 <table class="analysis-summary">
     <thead>
     <tr>
-        <th style="width:120px;" rowspan="2">Name</th>
-        <th rowspan="2">Package Path</th>
-        <th rowspan="2" style="width:60px;">Files</th>
-        <th colspan="3">Instability</th>
-        <th colspan="3">Abstractness</th>
-        <th colspan="3">Distance</th>
-    </tr>
-    <tr>
+        <th style="width:120px;">Name</th>
+        <th>Package Path</th>
         <th style="width:120px;">C<sub>Afferent</sub></th>
         <th style="width:120px;">C<sub>Efferent</sub></th>
         <th style="width:120px;">Instability</th>
-        <th style="width:120px;">N<sub>Abstractions</sub></th>
-        <th style="width:120px;">N<sub>Implementations</sub></th>
-        <th style="width:120px;">Abstractness</th>
-        <th style="width:120px;">Distance</th>
     </tr>
     </thead>
     <tbody>
@@ -110,26 +100,13 @@ const HtmlFullTemplate = `
     <tr class="{{if le .Distance 0.1}}green{{else if gt .Distance 0.6}}red{{end}}" onClick="javasript:toggleDetails('{{.Path}}-details')">
         <td class="">{{ .Name }}</td>
         <td class="">{{ .Path }}</td>
-        <td class="right">{{ .FilesCount }}</td>
         <td class="right right-spaced">{{ .AfferentCoupling }}</td>
         <td class="right right-spaced">{{ .EfferentCoupling }}</td>
         <td class="bold right right-spaced">{{ .Instability }}</td>
-        <td class="right right-spaced">{{ .AbstractionsCount }}</td>
-        <td class="right right-spaced">{{ .ImplementationsCount }}</td>
-        <td class="bold right right-spaced">{{ .Abstractness }}</td>
-        <td class="bold right right-spaced">{{ .Distance }}</td>
     </tr>
 	<tr id="{{.Path}}-details" class="package-details" style="display:none;">
-		<td colspan="10">
+		<td colspan="5">
 			<div style="margin-bottom: 15px;"><b>Package details for: </b>{{ .Path }}</div>
-			<div class="box files">
-				<div class="box-title">Files</div>
-				<ul>
-					{{ range .Files }}
-					<li>{{.}}</li>
-					{{ end }}
-				</ul>
-			</div>
 			{{ if .Dependencies }}
 			<div class="box dependencies">
 				<div class="box-title">Dependencies</div>
@@ -168,17 +145,6 @@ const HtmlFullTemplate = `
 					{{ range .Dependants }}
 					<li>{{.}}</li>
 					{{ end }}
-				</ul>
-			</div>
-			{{ end }}
-			{{ if .AbstractnessDetails }}
-			<div class="box abstractness">
-				<div class="box-title">Abstractness Details</div>
-				<ul>
-					<li><b>Methods: </b>{{ .AbstractnessDetails.MethodsCount }}</li>
-					<li><b>Functions: </b>{{ .AbstractnessDetails.FunctionsCount }}</li>
-					<li><b>Interfaces: </b>{{ .AbstractnessDetails.InterfacesCount }}</li>
-					<li><b>Structs: </b>{{ .AbstractnessDetails.StructsCount }}</li>
 				</ul>
 			</div>
 			{{ end }}

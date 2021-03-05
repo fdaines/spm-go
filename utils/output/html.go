@@ -40,8 +40,11 @@ func getHtmlTemplate(analysis string) string {
 	case "all": return templates.HtmlFullTemplate
 	case "packages": return templates.HtmlPackagesTemplate
 	case "dependencies": return templates.HtmlDependenciesTemplate
+	case "instability": return templates.HtmlInstabilityTemplate
+	case "abstractness": return templates.HtmlAbstractnessTemplate
+	case "distance": return templates.HtmlDistanceTemplate
 	}
-	return templates.HtmlFullTemplate
+	return templates.HtmlPackagesTemplate
 }
 
 func checkOutputDirectory() {
