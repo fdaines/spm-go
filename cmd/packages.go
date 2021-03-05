@@ -40,6 +40,6 @@ func listPackages(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printPackages(pkgsInfo)
-		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "packages")
 	})
 }

@@ -1,6 +1,6 @@
 package templates
 
-const HtmlTemplate = `
+const HtmlFullTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +83,7 @@ const HtmlTemplate = `
 <body>
 <h1>Software Package Metrics for Go - v{{.Version}}</h1>
 <h2>Results for Module: {{.Module}}</h2>
-<h2>Packages Analysis</h2>
+<h2>Full Analysis</h2>
 <div class="results">
 <table class="analysis-summary">
     <thead>

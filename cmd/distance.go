@@ -62,7 +62,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printDistance(pkgsInfo)
-		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "distance")
 	})
 }
 

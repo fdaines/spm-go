@@ -63,6 +63,6 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printAll(pkgsInfo)
-		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "all")
 	})
 }

@@ -52,7 +52,7 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printInstability(pkgsInfo)
-		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "instability")
 	})
 }
 

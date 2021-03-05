@@ -56,7 +56,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printAbstractness(pkgsInfo)
-		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "abstractness")
 	})
 }
 

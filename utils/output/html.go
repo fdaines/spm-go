@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
+func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis string) {
 	checkOutputDirectory()
 	summary := &htmlData{
 		Version: common.Version,
@@ -18,7 +18,7 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
 		TimeStamp: time.Now().Format("Mon Jan 02 2006 at 15:04:05"),
 		Packages: packages,
 	}
-	t, err := template.New("output").Parse(templates.HtmlTemplate)
+	t, err := template.New("output").Parse(getHtmlTemplate(analysis))
 	if err != nil {
 		fmt.Printf("Error: %+v\n", err)
 	}
@@ -33,6 +33,15 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
 		fmt.Printf("Error: %+v\n", err)
 	}
 	f.Close()
+}
+
+func getHtmlTemplate(analysis string) string {
+	switch analysis {
+	case "all": return templates.HtmlFullTemplate
+	case "packages": return templates.HtmlPackagesTemplate
+	case "dependencies": return templates.HtmlDependenciesTemplate
+	}
+	return templates.HtmlFullTemplate
 }
 
 func checkOutputDirectory() {
