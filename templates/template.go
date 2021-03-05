@@ -25,14 +25,12 @@ const HtmlTemplate = `
         .analysis-summary td, .analysis-summary th { padding: 10px; }
         .analysis-summary tbody { border: 1px solid #bbb; }
         .analysis-summary td { border-right: 1px solid #bbb; background: #fff4c2; }
-        .analysis-summary td:last-child { border-right: none; }
         .analysis-summary th {
             border: 1px solid #bbb;
             text-align: center;
             font-weight: bold;
             white-space: nowrap;
         }
-        .analysis-summary tfoot td { }
         .green > td { background: rgb(230,245,208) !important; }
         .red > td { background: #FCE1E5 !important; }
         .bold { font-weight: bold; }
@@ -43,6 +41,42 @@ const HtmlTemplate = `
 			text-align: center;
 			margin-top: 10px;
 			height: 50px;
+		}
+		.files {
+			min-width: 200px;
+		}
+		.dependencies {
+			min-width: 400px;
+			max-width: 600px;
+		}
+		.dependants {
+			min-width: 400px;
+			max-width: 600px;
+		}
+		.abstractness {
+			min-width: 200px;
+		}
+		.box {
+			display: inline-block;
+			padding: 10px;
+			vertical-align: top;
+			border: 2px solid #aaa;
+			border-radius: 10px;
+		}
+		.box-title {
+			width: 100%;
+			text-align: center;
+			font-weight: bold;
+		}
+		ul {
+			margin-left: -20px;
+		}
+		.package-details {
+		}
+		.package-details > td {
+			padding-left: 40px;
+			background-color: #fcfcfc;
+			border-bottom: 1px solid #bbb;
 		}
     </style>
 </head>
@@ -73,7 +107,7 @@ const HtmlTemplate = `
     </thead>
     <tbody>
     {{ range .Packages }}
-    <tr class="{{if le .Distance 0.1}}green{{else if gt .Distance 0.6}}red{{end}}">
+    <tr class="{{if le .Distance 0.1}}green{{else if gt .Distance 0.6}}red{{end}}" onClick="javasript:toggleDetails('{{.Path}}-details')">
         <td class="">{{ .Name }}</td>
         <td class="">{{ .Path }}</td>
         <td class="right">{{ .FilesCount }}</td>
@@ -85,6 +119,71 @@ const HtmlTemplate = `
         <td class="bold right right-spaced">{{ .Abstractness }}</td>
         <td class="bold right right-spaced">{{ .Distance }}</td>
     </tr>
+	<tr id="{{.Path}}-details" class="package-details" style="display:none;">
+		<td colspan="10">
+			<div style="margin-bottom: 15px;"><b>Package details for: </b>{{ .Path }}</div>
+			<div class="box files">
+				<div class="box-title">Files</div>
+				<ul>
+					{{ range .Files }}
+					<li>{{.}}</li>
+					{{ end }}
+				</ul>
+			</div>
+			{{ if .Dependencies }}
+			<div class="box dependencies">
+				<div class="box-title">Dependencies</div>
+				<ul>
+					<li>
+						<b>Internals</b>
+						<ul>
+							{{ range .Dependencies.Internals }}
+							<li>{{.}}</li>
+							{{ end }}
+						</ul>
+					</li>
+					<li>
+						<b>Externals</b>
+						<ul>
+							{{ range .Dependencies.Externals }}
+							<li>{{.}}</li>
+							{{ end }}
+						</ul>
+					</li>
+					<li>
+						<b>Standard</b>
+						<ul>
+							{{ range .Dependencies.Standard }}
+							<li>{{.}}</li>
+							{{ end }}
+						</ul>
+					</li>
+				</ul>
+			</div>
+			{{ end }}
+			{{ if .Dependants }}
+			<div class="box dependants">
+				<div class="box-title">Dependants</div>
+				<ul>
+					{{ range .Dependants }}
+					<li>{{.}}</li>
+					{{ end }}
+				</ul>
+			</div>
+			{{ end }}
+			{{ if .AbstractnessDetails }}
+			<div class="box abstractness">
+				<div class="box-title">Abstractness Details</div>
+				<ul>
+					<li><b>Methods</b>{{ .AbstractnessDetails.MethodsCount }}</li>
+					<li><b>Functions</b>{{ .AbstractnessDetails.FunctionsCount }}</li>
+					<li><b>Interfaces</b>{{ .AbstractnessDetails.InterfacesCount }}</li>
+					<li><b>Structs</b>{{ .AbstractnessDetails.StructsCount }}</li>
+				</ul>
+			</div>
+			{{ end }}
+		</td>
+	</tr>
     {{ end }}
     </tbody>
 </table>
@@ -94,5 +193,15 @@ const HtmlTemplate = `
 	<a href="https://pkg.go.dev/github.com/fdaines/spm-go" target="_blank">SPM-Go</a>
 	at {{.TimeStamp}}
 </div>
+<script language="javascript">
+function toggleDetails(element) {
+	var target = document.getElementById(element)
+	if(target.style.display == "none") {
+		document.getElementById(element).style.display = "contents";
+	} else {
+		document.getElementById(element).style.display = "none";
+	}
+}
+</script>
 </body>
 </html>`
