@@ -82,8 +82,7 @@ const HtmlInstabilityTemplate = `
 </head>
 <body>
 <h1>Software Package Metrics for Go - v{{.Version}}</h1>
-<h2>Results for Module: {{.Module}}</h2>
-<h2>Instability Analysis</h2>
+<h2>Instability analysis for Module: {{.Module}}</h2>
 <div class="results">
 <table class="analysis-summary">
     <thead>

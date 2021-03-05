@@ -81,10 +81,12 @@ $ spm-go command [flags]
 | --------- |:-----------------------------------------------------------------------------------------------:|
 | --format  | Specifies the output format for the command. Supported values are: _json_, _console_ and _csv_. |
 | --verbose | Includes detailed information while the command is running                                      |
+| --html    | Creates an HTML report                                                                          |
 
 
 ## Examples
 ```bash
+$ spm-go all --html
 $ spm-go packages
 $ spm-go dependencies -v
 $ spm-go instability --verbose
@@ -204,6 +206,10 @@ module/foo;2
 module/foo/bar;3
 module/utils;6
 ```
+
+## HTML Report
+If the `-html` is present, then SPM-Go will create an HTML report into `spm-go/output.html. The report contains data according to the executed command.
+
 
 # Contributions
 Feel free to contribute.

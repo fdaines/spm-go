@@ -5,12 +5,17 @@ import (
 	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/templates"
+	"github.com/fdaines/spm-go/utils"
 	"html/template"
 	"os"
 	"time"
 )
 
 func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis string) {
+	if !common.HtmlOutput {
+		return
+	}
+	utils.PrintMessage("Creating html report into 'spm-go/output.html'......")
 	checkOutputDirectory()
 	summary := &htmlData{
 		Version: common.Version,
