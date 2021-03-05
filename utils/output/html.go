@@ -11,6 +11,7 @@ import (
 )
 
 func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
+	checkOutputDirectory()
 	summary := &htmlData{
 		Version: common.Version,
 		Module: module,
@@ -22,7 +23,7 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
 		fmt.Printf("Error: %+v\n", err)
 	}
 
-	f, err := os.Create("output.html")
+	f, err := os.Create("spm-go/output.html")
 	if err != nil {
 		fmt.Printf("Error: %+v\n", err)
 	}
@@ -32,6 +33,12 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string) {
 		fmt.Printf("Error: %+v\n", err)
 	}
 	f.Close()
+}
+
+func checkOutputDirectory() {
+	if _, err := os.Stat("spm-go"); os.IsNotExist(err) {
+		os.Mkdir("spm-go", 0755)
+	}
 }
 
 type htmlData struct {
