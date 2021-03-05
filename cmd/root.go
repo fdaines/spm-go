@@ -21,8 +21,8 @@ func Execute() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:     "spm",
-	Version: "0.9.3",
+	Use:     "spm-go",
+	Version: common.Version,
 	Short:   "Software Package Metrics for Go",
 	Long:    "Software Package Metrics for Go",
 }
@@ -31,6 +31,7 @@ var context = build.Default
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&common.OutputFormat, "format", "f", "console", "Output format")
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
+	rootCmd.PersistentFlags().BoolVar(&common.HtmlOutput, "html", false, "Generate HTML Output")
 }
 
 func ValidateArgs(cmd *cobra.Command, args []string) error {

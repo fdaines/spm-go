@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fdaines/spm-go/cmd/dependencies"
 	"github.com/fdaines/spm-go/utils"
+	"github.com/fdaines/spm-go/utils/output"
 	"github.com/spf13/cobra"
 	"math"
 )
@@ -61,6 +62,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printDistance(pkgsInfo)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
 	})
 }
 

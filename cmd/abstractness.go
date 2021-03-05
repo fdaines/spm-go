@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
+	"github.com/fdaines/spm-go/utils/output"
 	"github.com/spf13/cobra"
 	"go/ast"
 	"go/build"
@@ -55,6 +56,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printAbstractness(pkgsInfo)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
 	})
 }
 

@@ -5,6 +5,7 @@ import (
 	"github.com/fdaines/spm-go/cmd/dependencies"
 	"github.com/fdaines/spm-go/cmd/packages"
 	"github.com/fdaines/spm-go/utils"
+	"github.com/fdaines/spm-go/utils/output"
 	"github.com/spf13/cobra"
 )
 
@@ -62,5 +63,6 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 		}
 		utils.PrintVerboseMessage("Done.")
 		printAll(pkgsInfo)
+		output.GenerateHtmlOutput(pkgsInfo, mainPackage)
 	})
 }
