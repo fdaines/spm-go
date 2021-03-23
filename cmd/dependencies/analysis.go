@@ -2,7 +2,7 @@ package dependencies
 
 import (
 	"github.com/fdaines/spm-go/model"
-	"github.com/fdaines/spm-go/utils"
+	"github.com/fdaines/spm-go/utils/packages"
 	"go/build"
 )
 
@@ -16,7 +16,7 @@ func FillDependencies(packageInfo *model.PackageInfo, pkg *build.Package, packag
 }
 
 func resolveDependencies(pkg *build.Package, pkgs []string) *model.DependenciesInfo {
-	internals, externals, standard := utils.FilterDependencies(pkg.Imports, pkgs)
+	internals, externals, standard := packages.FilterDependencies(pkg.Imports, pkgs)
 	depInfo := &model.DependenciesInfo{
 		Standard:       standard,
 		Externals:      externals,

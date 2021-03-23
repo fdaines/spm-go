@@ -5,6 +5,7 @@ import (
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
+	pkg "github.com/fdaines/spm-go/utils/packages"
 	"github.com/spf13/cobra"
 	"go/ast"
 	"go/build"
@@ -32,12 +33,12 @@ func init() {
 func analyzeAbstractness(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Abstractness analysis started.")
-		mainPackage, err := getMainPackage()
+		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
 			fmt.Printf("Error: %+v\n", err)
 			return
 		}
-		pkgsInfo := getBasicPackagesInfo()
+		pkgsInfo := pkg.GetBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
