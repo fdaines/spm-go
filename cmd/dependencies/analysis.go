@@ -6,12 +6,12 @@ import (
 	"go/build"
 )
 
-func FillDependencies(packageInfo *model.PackageInfo, pkg *build.Package, packagesInfo []*model.PackageInfo) *model.PackageInfo {
+func FillDependencies(packageInfo *model.PackageInfo, packagesInfo []*model.PackageInfo) *model.PackageInfo {
 	var pkgs []string
 	for _, current := range packagesInfo {
 		pkgs = append(pkgs, current.Path)
 	}
-	packageInfo.Dependencies = resolveDependencies(pkg, pkgs)
+	packageInfo.Dependencies = resolveDependencies(packageInfo.PackageData, pkgs)
 	return packageInfo
 }
 

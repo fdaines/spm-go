@@ -25,6 +25,7 @@ func GetBasicPackagesInfo() []*model.PackageInfo {
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{
+					PackageData: pkg,
 					Name: pkg.Name,
 					Path: pkg.ImportPath,
 				})

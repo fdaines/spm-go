@@ -36,12 +36,9 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			pkg, err := context.Import(pkgInfo.Path, "", 0)
-			if err == nil {
-				pkgsInfo[index] = dependencies.FillDependencies(pkgsInfo[index], pkg, pkgsInfo)
-				for _, current := range pkgsInfo[index].Dependencies.Internals {
-					afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
-				}
+			pkgsInfo[index] = dependencies.FillDependencies(pkgInfo, pkgsInfo)
+			for _, current := range pkgInfo.Dependencies.Internals {
+				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}
 		}
 		for index, pkgInfo := range pkgsInfo {
