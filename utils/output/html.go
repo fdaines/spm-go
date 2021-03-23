@@ -18,10 +18,10 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis s
 	utils.PrintMessage("Creating html report into 'spm-go/output.html'......")
 	checkOutputDirectory()
 	summary := &htmlData{
-		Version: common.Version,
-		Module: module,
+		Version:   common.Version,
+		Module:    module,
 		TimeStamp: time.Now().Format("Mon Jan 02 2006 at 15:04:05"),
-		Packages: packages,
+		Packages:  packages,
 	}
 	t, err := template.New("output").Parse(getHtmlTemplate(analysis))
 	if err != nil {
@@ -42,12 +42,18 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis s
 
 func getHtmlTemplate(analysis string) string {
 	switch analysis {
-	case "all": return templates.HtmlFullTemplate
-	case "packages": return templates.HtmlPackagesTemplate
-	case "dependencies": return templates.HtmlDependenciesTemplate
-	case "instability": return templates.HtmlInstabilityTemplate
-	case "abstractness": return templates.HtmlAbstractnessTemplate
-	case "distance": return templates.HtmlDistanceTemplate
+	case "all":
+		return templates.HtmlFullTemplate
+	case "packages":
+		return templates.HtmlPackagesTemplate
+	case "dependencies":
+		return templates.HtmlDependenciesTemplate
+	case "instability":
+		return templates.HtmlInstabilityTemplate
+	case "abstractness":
+		return templates.HtmlAbstractnessTemplate
+	case "distance":
+		return templates.HtmlDistanceTemplate
 	}
 	return templates.HtmlPackagesTemplate
 }
@@ -59,8 +65,8 @@ func checkOutputDirectory() {
 }
 
 type htmlData struct {
-	Version string
-	Module string
+	Version   string
+	Module    string
 	TimeStamp string
-	Packages []*model.PackageInfo
+	Packages  []*model.PackageInfo
 }

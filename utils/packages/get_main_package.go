@@ -8,6 +8,7 @@ import (
 )
 
 const goModFile = "go.mod"
+
 func GetMainPackage() (string, error) {
 	if _, err := os.Stat(goModFile); err == nil {
 		content, _ := ioutil.ReadFile(goModFile)
