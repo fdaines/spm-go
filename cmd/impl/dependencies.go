@@ -1,4 +1,4 @@
-package dependencies
+package impl
 
 import (
 	"github.com/fdaines/spm-go/model"

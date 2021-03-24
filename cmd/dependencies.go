@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/fdaines/spm-go/cmd/dependencies"
+	"github.com/fdaines/spm-go/cmd/impl"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
 	pkg "github.com/fdaines/spm-go/utils/packages"
@@ -33,7 +33,7 @@ func listPackagesDependencies(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, _ := range pkgsInfo {
 			utils.PrintStep()
-			dependencies.FillDependencies(pkgsInfo[index], pkgsInfo)
+			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
 		}
 		utils.PrintVerboseMessage("Done.")
 		printDependencies(pkgsInfo)

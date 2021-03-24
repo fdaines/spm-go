@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/fdaines/spm-go/cmd/dependencies"
+	"github.com/fdaines/spm-go/cmd/impl"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
@@ -35,7 +35,7 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			dependencies.FillDependencies(pkgsInfo[index], pkgsInfo)
+			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
 			for _, current := range pkgInfo.Dependencies.Internals {
 				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}

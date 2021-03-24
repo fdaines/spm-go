@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/fdaines/spm-go/cmd/dependencies"
+	"github.com/fdaines/spm-go/cmd/impl"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
 	pkg "github.com/fdaines/spm-go/utils/packages"
@@ -35,7 +35,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			dependencies.FillDependencies(pkgsInfo[index], pkgsInfo)
+			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
 			for _, current := range pkgsInfo[index].Dependencies.Internals {
 				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}
