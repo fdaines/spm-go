@@ -35,7 +35,7 @@ func listAllMetrics(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			pkgsInfo[index] = dependencies.FillDependencies(pkgInfo, pkgsInfo)
+			dependencies.FillDependencies(pkgsInfo[index], pkgsInfo)
 			for _, current := range pkgsInfo[index].Dependencies.Internals {
 				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}

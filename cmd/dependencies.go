@@ -32,9 +32,9 @@ func listPackagesDependencies(cmd *cobra.Command, args []string) {
 		}
 		pkgsInfo := pkg.GetBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
-		for index, pkgInfo := range pkgsInfo {
+		for index, _ := range pkgsInfo {
 			utils.PrintStep()
-			pkgsInfo[index] = dependencies.FillDependencies(pkgInfo, pkgsInfo)
+			dependencies.FillDependencies(pkgsInfo[index], pkgsInfo)
 		}
 		utils.PrintVerboseMessage("Done.")
 		printDependencies(pkgsInfo)
