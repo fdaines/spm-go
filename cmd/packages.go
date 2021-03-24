@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fdaines/spm-go/cmd/packages"
+	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
 	pkg "github.com/fdaines/spm-go/utils/packages"
 	"github.com/spf13/cobra"
+	"go/build"
 )
 
 var (
@@ -36,11 +37,18 @@ func listPackages(cmd *cobra.Command, args []string) {
 			utils.PrintStep()
 			pkg, err := context.Import(pkgInfo.Path, "", 0)
 			if err == nil {
-				pkgsInfo[index] = packages.FillFiles(pkgInfo, pkg)
+				pkgsInfo[index] = fillFiles(pkgInfo, pkg)
 			}
 		}
 		utils.PrintVerboseMessage("Done.")
 		printPackages(pkgsInfo)
 		output.GenerateHtmlOutput(pkgsInfo, mainPackage, "packages")
 	})
+}
+
+func fillFiles(packageInfo *model.PackageInfo, pkg *build.Package) *model.PackageInfo {
+	packageInfo.Files = pkg.GoFiles
+	packageInfo.FilesCount = len(pkg.GoFiles)
+
+	return packageInfo
 }
