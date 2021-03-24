@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/fdaines/spm-go/cmd/dependencies"
+	"github.com/fdaines/spm-go/cmd/impl"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
+	pkg "github.com/fdaines/spm-go/utils/packages"
 	"github.com/spf13/cobra"
 	"math"
 )
@@ -25,32 +25,29 @@ func init() {
 func analyzeDistance(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Distance from main sequence analysis started.")
-		mainPackage, err := getMainPackage()
+		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			utils.PrintError("Error loading main package", err)
 			return
 		}
 		var afferentMap = make(map[string][]string)
-		pkgsInfo := getBasicPackagesInfo()
+		pkgsInfo := pkg.GetBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			pkg, err := context.Import(pkgInfo.Path, "", 0)
-			if err == nil {
-				pkgsInfo[index] = dependencies.FillDependencies(pkgsInfo[index], pkg, pkgsInfo)
-				for _, current := range pkgsInfo[index].Dependencies.Internals {
-					afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
-				}
-				abstractnessInfo, err := retrieveAbstractnessInfo(pkg, mainPackage)
-				if err != nil {
-					fmt.Printf("Error: %+v\n", err)
-					return
-				}
-				pkgsInfo[index].AbstractnessDetails = abstractnessInfo
-				pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
-				pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
-				pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
+			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
+			for _, current := range pkgsInfo[index].Dependencies.Internals {
+				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}
+			abstractnessInfo, err := retrieveAbstractnessInfo(pkgInfo.PackageData, mainPackage)
+			if err != nil {
+				utils.PrintError("Error gathering abstractness information", err)
+				return
+			}
+			pkgsInfo[index].AbstractnessDetails = abstractnessInfo
+			pkgsInfo[index].AbstractionsCount = abstractnessInfo.StructsCount + abstractnessInfo.InterfacesCount
+			pkgsInfo[index].ImplementationsCount = abstractnessInfo.MethodsCount + abstractnessInfo.FunctionsCount
+			pkgsInfo[index].Abstractness = calculateAbstractness(pkgsInfo[index].AbstractionsCount, pkgsInfo[index].ImplementationsCount)
 		}
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()

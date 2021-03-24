@@ -11,13 +11,13 @@ type MetricOutput struct {
 
 var FilesCount = MetricOutput{
 	Title: "Files",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.FilesCount
 	},
 }
 var InternalDependencies = MetricOutput{
 	Title: "Internals",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		if pkg.Dependencies == nil {
 			return "-"
 		}
@@ -26,7 +26,7 @@ var InternalDependencies = MetricOutput{
 }
 var ExternalDependencies = MetricOutput{
 	Title: "Externals",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		if pkg.Dependencies == nil {
 			return "-"
 		}
@@ -35,7 +35,7 @@ var ExternalDependencies = MetricOutput{
 }
 var StandardDependencies = MetricOutput{
 	Title: "Standard",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		if pkg.Dependencies == nil {
 			return "-"
 		}
@@ -44,7 +44,7 @@ var StandardDependencies = MetricOutput{
 }
 var TotalDependencies = MetricOutput{
 	Title: "Total",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		if pkg.Dependencies == nil {
 			return "-"
 		}
@@ -53,44 +53,43 @@ var TotalDependencies = MetricOutput{
 }
 var AfferentCoupling = MetricOutput{
 	Title: "Afferent",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.AfferentCoupling
 	},
 }
 var EfferentCoupling = MetricOutput{
 	Title: "Efferent",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.EfferentCoupling
 	},
 }
 var Instability = MetricOutput{
 	Title: "Instability",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.Instability
 	},
 }
 var Abstractions = MetricOutput{
 	Title: "Abstractions",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.AbstractionsCount
 	},
 }
 var Implementations = MetricOutput{
 	Title: "Implementations",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.ImplementationsCount
 	},
 }
 var Abstractness = MetricOutput{
 	Title: "Abstractness",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.Abstractness
 	},
 }
 var Distance = MetricOutput{
 	Title: "Distance",
-	Value: func (pkg *model.PackageInfo) interface{} {
+	Value: func(pkg *model.PackageInfo) interface{} {
 		return pkg.Distance
 	},
 }
-

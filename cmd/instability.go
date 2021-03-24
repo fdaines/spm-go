@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/fdaines/spm-go/cmd/dependencies"
+	"github.com/fdaines/spm-go/cmd/impl"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
+	pkg "github.com/fdaines/spm-go/utils/packages"
 	"github.com/spf13/cobra"
 )
 
@@ -25,22 +25,19 @@ func init() {
 func analyzeInstability(cmd *cobra.Command, args []string) {
 	utils.ExecuteWithTimer(func() {
 		utils.PrintMessage("Instability analysis started.")
-		mainPackage, err := getMainPackage()
+		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			utils.PrintError("Error loading main package", err)
 			return
 		}
 		var afferentMap = make(map[string][]string)
-		pkgsInfo := getBasicPackagesInfo()
+		pkgsInfo := pkg.GetBasicPackagesInfo()
 		utils.PrintMessage("Gathering package metrics, please wait until the command is finished running.")
 		for index, pkgInfo := range pkgsInfo {
 			utils.PrintStep()
-			pkg, err := context.Import(pkgInfo.Path, "", 0)
-			if err == nil {
-				pkgsInfo[index] = dependencies.FillDependencies(pkgsInfo[index], pkg, pkgsInfo)
-				for _, current := range pkgsInfo[index].Dependencies.Internals {
-					afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
-				}
+			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
+			for _, current := range pkgInfo.Dependencies.Internals {
+				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
 			}
 		}
 		for index, pkgInfo := range pkgsInfo {

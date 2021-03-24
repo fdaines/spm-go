@@ -1,6 +1,9 @@
 package model
 
+import "go/build"
+
 type PackageInfo struct {
+	PackageData          *build.Package       `json:"-"`
 	Name                 string               `json:"name"`
 	Path                 string               `json:"path"`
 	Files                []string             `json:"files,omitempty"`

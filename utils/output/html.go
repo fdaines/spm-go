@@ -1,7 +1,6 @@
 package output
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/templates"
@@ -18,36 +17,45 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis s
 	utils.PrintMessage("Creating html report into 'spm-go/output.html'......")
 	checkOutputDirectory()
 	summary := &htmlData{
-		Version: common.Version,
-		Module: module,
+		Version:   common.Version,
+		Module:    module,
 		TimeStamp: time.Now().Format("Mon Jan 02 2006 at 15:04:05"),
-		Packages: packages,
+		Packages:  packages,
 	}
 	t, err := template.New("output").Parse(getHtmlTemplate(analysis))
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error parsing output html template", err)
+		return
 	}
 
 	f, err := os.Create("spm-go/output.html")
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error creating html report", err)
+		return
 	}
 
 	err = t.Execute(f, summary)
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error creating html report", err)
+		return
 	}
 	f.Close()
 }
 
 func getHtmlTemplate(analysis string) string {
 	switch analysis {
-	case "all": return templates.HtmlFullTemplate
-	case "packages": return templates.HtmlPackagesTemplate
-	case "dependencies": return templates.HtmlDependenciesTemplate
-	case "instability": return templates.HtmlInstabilityTemplate
-	case "abstractness": return templates.HtmlAbstractnessTemplate
-	case "distance": return templates.HtmlDistanceTemplate
+	case "all":
+		return templates.HtmlFullTemplate
+	case "packages":
+		return templates.HtmlPackagesTemplate
+	case "dependencies":
+		return templates.HtmlDependenciesTemplate
+	case "instability":
+		return templates.HtmlInstabilityTemplate
+	case "abstractness":
+		return templates.HtmlAbstractnessTemplate
+	case "distance":
+		return templates.HtmlDistanceTemplate
 	}
 	return templates.HtmlPackagesTemplate
 }
@@ -59,8 +67,8 @@ func checkOutputDirectory() {
 }
 
 type htmlData struct {
-	Version string
-	Module string
+	Version   string
+	Module    string
 	TimeStamp string
-	Packages []*model.PackageInfo
+	Packages  []*model.PackageInfo
 }

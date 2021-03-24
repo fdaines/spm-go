@@ -5,6 +5,10 @@ import (
 	"github.com/fdaines/spm-go/common"
 )
 
+func PrintError(message string, err error) {
+	fmt.Printf("Error: %s - %s\n", message, err.Error())
+}
+
 func PrintMessage(message string) {
 	fmt.Println(message)
 }

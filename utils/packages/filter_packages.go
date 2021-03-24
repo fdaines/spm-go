@@ -1,6 +1,9 @@
-package utils
+package packages
 
-import "strings"
+import (
+	"github.com/fdaines/spm-go/utils"
+	"strings"
+)
 
 func FilterDependencies(dependencies []string, internalPackages []string) ([]string, []string, []string) {
 	internals := []string{}
@@ -8,7 +11,7 @@ func FilterDependencies(dependencies []string, internalPackages []string) ([]str
 	standard := []string{}
 
 	for _, dep := range dependencies {
-		if SliceContains(internalPackages, dep) {
+		if utils.SliceContains(internalPackages, dep) {
 			internals = append(internals, dep)
 		} else {
 			if strings.Contains(dep, ".") {
