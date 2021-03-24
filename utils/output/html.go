@@ -1,7 +1,6 @@
 package output
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/templates"
@@ -25,17 +24,20 @@ func GenerateHtmlOutput(packages []*model.PackageInfo, module string, analysis s
 	}
 	t, err := template.New("output").Parse(getHtmlTemplate(analysis))
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error parsing output html template", err)
+		return
 	}
 
 	f, err := os.Create("spm-go/output.html")
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error creating html report", err)
+		return
 	}
 
 	err = t.Execute(f, summary)
 	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+		utils.PrintError("Error creating html report", err)
+		return
 	}
 	f.Close()
 }

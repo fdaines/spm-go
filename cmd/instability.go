@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/cmd/dependencies"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
@@ -28,7 +27,7 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Instability analysis started.")
 		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			utils.PrintError("Error loading main package", err)
 			return
 		}
 		var afferentMap = make(map[string][]string)

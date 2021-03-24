@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/model"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
@@ -35,7 +34,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Abstractness analysis started.")
 		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			utils.PrintError("Error loading main package", err)
 			return
 		}
 		pkgsInfo := pkg.GetBasicPackagesInfo()
@@ -46,7 +45,7 @@ func analyzeAbstractness(cmd *cobra.Command, args []string) {
 			if err == nil {
 				abstractnessInfo, err := retrieveAbstractnessInfo(pkg, mainPackage)
 				if err != nil {
-					fmt.Printf("Error: %+v\n", err)
+					utils.PrintError("Error gathering abstractness information", err)
 					return
 				}
 				pkgsInfo[index].AbstractnessDetails = abstractnessInfo

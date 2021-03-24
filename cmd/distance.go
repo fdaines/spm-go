@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/fdaines/spm-go/cmd/dependencies"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/fdaines/spm-go/utils/output"
@@ -28,7 +27,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 		utils.PrintMessage("Distance from main sequence analysis started.")
 		mainPackage, err := pkg.GetMainPackage()
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			utils.PrintError("Error loading main package", err)
 			return
 		}
 		var afferentMap = make(map[string][]string)
@@ -42,7 +41,7 @@ func analyzeDistance(cmd *cobra.Command, args []string) {
 			}
 			abstractnessInfo, err := retrieveAbstractnessInfo(pkgInfo.PackageData, mainPackage)
 			if err != nil {
-				fmt.Printf("Error: %+v\n", err)
+				utils.PrintError("Error gathering abstractness information", err)
 				return
 			}
 			pkgsInfo[index].AbstractnessDetails = abstractnessInfo
