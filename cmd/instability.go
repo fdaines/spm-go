@@ -37,7 +37,7 @@ func analyzeInstability(cmd *cobra.Command, args []string) {
 			utils.PrintStep()
 			impl.FillDependencies(pkgsInfo[index], pkgsInfo)
 			for _, current := range pkgInfo.Dependencies.Internals {
-				afferentMap[current] = append(afferentMap[pkgInfo.Path], current)
+				afferentMap[current] = append(afferentMap[current], pkgInfo.Path)
 			}
 		}
 		for index, pkgInfo := range pkgsInfo {
