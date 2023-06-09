@@ -26,6 +26,7 @@ var context = build.Default
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&common.OutputFormat, "format", "f", "console", "Output format")
+	rootCmd.PersistentFlags().StringVarP(&common.MainPackage, "main-package", "m", "main", "choose which package to use as mainPackage")
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
 	rootCmd.PersistentFlags().BoolVar(&common.HtmlOutput, "html", false, "Generate HTML Output")
 }
