@@ -82,6 +82,7 @@ $ spm-go command [flags]
 | --format  | Specifies the output format for the command. Supported values are: _json_, _console_ and _csv_. |
 | --verbose | Includes detailed information while the command is running                                      |
 | --html    | Creates an HTML report                                                                          |
+| --main-package | Allows user to specify the location of the main package, for projects prior to Go 1.11     |
 
 
 ## Examples
@@ -93,6 +94,7 @@ $ spm-go instability --verbose
 $ spm-go abstractness -f csv
 $ spm-go distance --format json
 $ spm-go all -v -f json
+$ spm-gp all -m k8s.io/kubernetes -v
 ```
 
 ## Output Formats
