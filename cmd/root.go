@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"errors"
+	"go/build"
+	"os"
+
 	"github.com/fdaines/spm-go/common"
 	"github.com/fdaines/spm-go/utils"
 	"github.com/spf13/cobra"
-	"go/build"
-	"os"
 )
 
 func Execute() {
@@ -28,6 +29,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&common.OutputFormat, "format", "f", "console", "Output format")
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
 	rootCmd.PersistentFlags().BoolVar(&common.HtmlOutput, "html", false, "Generate HTML Output")
+	rootCmd.PersistentFlags().StringVarP(&common.MainPackage, "main-package", "m", "main", "choose which package to use as mainPackage")
 }
 
 func ValidateArgs(cmd *cobra.Command, args []string) error {
